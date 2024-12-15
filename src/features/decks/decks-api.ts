@@ -6,3 +6,4 @@ export const instance = axios.create({
     'x-auth-skip': true,
   },
 })
+
