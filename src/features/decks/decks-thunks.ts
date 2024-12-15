@@ -1,11 +1,17 @@
-import {DeckPostResponseType, Item} from "./decks-a-p-i";
+import {DeckPostResponseType, decksAPI, Item} from "./decks-a-p-i";
 import {AppDispatch} from "../../app/store";
 import {addDeckAC, setDecksAC} from "./decks-reducer";
+import {FormValues} from "./AddNewDeckForm/AddNewDeckForm";
 
-export const setDecksTC = (items: Item[]) => (dispatch: AppDispatch) => {
-    dispatch(setDecksAC(items))
+export const setDecksTC = () => (dispatch: AppDispatch) => {
+    decksAPI.getDecks().then(res => {
+        dispatch(setDecksAC(res.data.items))
+    })
 }
 
-export const addDeckTC = (deck: DeckPostResponseType) => (dispatch: AppDispatch) => {
-    dispatch(addDeckAC(deck))
+export const addDeckTC = (data: FormValues) => (dispatch: AppDispatch) => {
+    return decksAPI.post(data).then(res => {
+        dispatch(addDeckAC(res.data))
+    })
 }
+
